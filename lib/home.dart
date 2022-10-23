@@ -1,6 +1,8 @@
 import 'package:app_locacao/welcome.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -11,6 +13,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
+  var getResult = 'QR Code Result';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,6 +22,19 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                  onPressed: () {
+                  scanQRCode();
+              },
+                child: Text('Scan QR'),
+              ),
+              SizedBox(height: 20.0),
+              Text(getResult),
+            ],
+          ),
           Text('Home',
             textAlign: TextAlign.center,
           ),
@@ -31,9 +48,26 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             },
             child: Text('Sair'),
           )
-        ],
+        ]
       ),
     );
+  }
+
+  void scanQRCode() async {
+    try{
+      final qrCode = await FlutterBarcodeScanner.scanBarcode('#ff6666', 'Cancel', true, ScanMode.BARCODE);
+
+      if (!mounted) return;
+
+      setState(() {
+        getResult = qrCode;
+      });
+      print('QRCode_Result:--');
+      print(qrCode);
+    } on PlatformException {
+      getResult = 'Failed to scan QR Code';
+    }
+
   }
 
   Future<bool> logout() async {
