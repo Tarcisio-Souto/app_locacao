@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:app_locacao/home.dart';
+import 'package:app_locacao/variables.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -11,6 +12,7 @@ class Login extends StatefulWidget {
 
   @override
   State<Login> createState() => _LoginState();
+
 }
 
 class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
@@ -19,7 +21,6 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   final _cpfController = TextEditingController();
   final _passwordController = TextEditingController();
-
 
   @override
   void initState() {
@@ -42,57 +43,94 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
           child: SingleChildScrollView(
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                TextFormField(
-                  decoration: InputDecoration(
-                    labelText: 'CPF',
+                Container(
+                  height: 200,
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  margin: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width * 0.0),
+                  child: Image.asset("assets/images/logo.png"),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(bottom: 60),
+                  child: const Text(
+                    "Locação de Recursos Institucionais",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  controller: _cpfController,
-                  keyboardType: TextInputType.text,
-                  validator: (cpf) {
-                    if (cpf == null || cpf.isEmpty) {
-                      return 'O campo CPF não pode estar vazio';
-                    }
-                    return null;
-                  }
                 ),
                 TextFormField(
                     decoration: InputDecoration(
-                      labelText: 'Senha',
+                      hintStyle: TextStyle(fontSize: 20),
+                      border: InputBorder.none,
+                      icon: Icon(Icons.account_circle_rounded),
+                      hintText: "CPF",
                     ),
-                  controller: _passwordController,
-                  keyboardType: TextInputType.text,
-                  obscureText: true,
-                  validator: (password){
-                    if (password == null || password.isEmpty) {
-                      return 'O campo senha não pode estar vazio';
+                    controller: _cpfController,
+                    keyboardType: TextInputType.text,
+                    validator: (cpf) {
+                      if (cpf == null || cpf.isEmpty) {
+                        return 'O campo CPF não pode estar vazio';
+                      }
+                      return null;
                     }
-                    return null;
-                  }
                 ),
-                ElevatedButton(
-                  onPressed: () async{
-                    FocusScopeNode currentFocus = FocusScope.of(context);
-                    if (_formKey.currentState!.validate()){
-                      bool correct = await login();
-                      if (!currentFocus.hasPrimaryFocus) {
-                        currentFocus.unfocus();
+                TextFormField(
+                    decoration: InputDecoration(
+                      hintStyle: TextStyle(fontSize: 22),
+                      border: InputBorder.none,
+                      icon: Icon(Icons.key),
+                      hintText: "Senha",
+                    ),
+                    controller: _passwordController,
+                    keyboardType: TextInputType.text,
+                    obscureText: true,
+                    validator: (password){
+                      if (password == null || password.isEmpty) {
+                        return 'O campo senha não pode estar vazio';
                       }
-                      if (correct) {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Home(),
-                        ));
-                      } else {
-                        _passwordController.clear();
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-                      }
+                      return null;
                     }
-                  },
-                  child: Text('ENTRAR'),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 40.0),
+                  child: SizedBox(
+                    height:50, //height of button
+                    width:200, //width of button
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.blueAccent,
+                        shape: RoundedRectangleBorder( //to set border radius to button
+                            borderRadius: BorderRadius.circular(30)
+                        ),
+                        elevation: 5,
+                      ),
+                      onPressed: () async{
+                        FocusScopeNode currentFocus = FocusScope.of(context);
+                        if (_formKey.currentState!.validate()){
+                          bool correct = await login();
+                          if (!currentFocus.hasPrimaryFocus) {
+                            currentFocus.unfocus();
+                          }
+                          if (correct) {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Home(),
+                                ));
+                          } else {
+                            _passwordController.clear();
+                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+                          }
+                        }
+                      },
+                      child: Text('ENTRAR'),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -121,6 +159,11 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
     if(resposta.statusCode == 200) {
       await sharedPreferences.setString('access_token', jsonDecode(resposta.body)['access_token']);
       print(jsonDecode(resposta.body)['access_token']);
+      print('');
+      print('Usuário: ' + jsonDecode(resposta.body)['user']);
+      userLogged = jsonDecode(resposta.body)['user'];
+      print('');
+      print('ID: ' + jsonDecode(resposta.body)['id'].toString());
       return true;
     } else {
       print(jsonDecode(resposta.body));

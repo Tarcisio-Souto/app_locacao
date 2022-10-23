@@ -1,8 +1,10 @@
+import 'package:app_locacao/variables.dart';
 import 'package:app_locacao/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:app_locacao/login.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -14,6 +16,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   var getResult = 'QR Code Result';
+  var user = userLogged;
+  var id = idUserLogged;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +39,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               Text(getResult),
             ],
           ),
-          Text('Home',
+          Text(userLogged,
             textAlign: TextAlign.center,
           ),
           TextButton(
