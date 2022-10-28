@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:app_locacao/listLoans.dart';
 import 'package:app_locacao/variables.dart';
 import 'package:app_locacao/welcome.dart';
 import 'package:flutter/material.dart';
@@ -120,7 +121,33 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                         ],
                       ),
                     )
-                )
+                ),
+                Container(
+                    child: Padding(padding: EdgeInsets.symmetric(vertical: 80.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () async{
+                              bool loans = await listLoans();
+                              if (loans) {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SimpleDataTable(),
+                                  ),
+                                );
+                              }
+                            },
+                            child: Text('Lista de Empréstimos'),
+                          ),
+                          SizedBox(height: 20.0),
+                          //Text(getResult),
+                        ],
+                      ),
+                    )
+                ),
+
               ],
             ),
           ),
@@ -202,6 +229,10 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           textColor: Colors.white,
           fontSize: 15.0);
     }
+  }
+
+  Future<bool> listLoans() async {
+    return true;
   }
 
   Future<bool> logout() async {
