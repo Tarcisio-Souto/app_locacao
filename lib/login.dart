@@ -163,6 +163,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
       print('Usuário: ' + jsonDecode(resposta.body)['user']);
       userLogged = jsonDecode(resposta.body)['user'];
       print('');
+      idUserLogged = jsonDecode(resposta.body)['id'].toString();
       print('ID: ' + jsonDecode(resposta.body)['id'].toString());
       return true;
     } else {

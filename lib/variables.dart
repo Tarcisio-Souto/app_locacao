@@ -2,3 +2,4 @@
 
 var idUserLogged = '';
 var userLogged = '';
+var responseCode = '';
