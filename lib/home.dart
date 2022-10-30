@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:app_locacao/listLoans.old';
 import 'package:app_locacao/variables.dart';
 import 'package:app_locacao/welcome.dart';
 import 'package:flutter/material.dart';
@@ -104,52 +103,84 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       ),
                     ],
                   ),
+                ),
 
 
-                ),
                 Container(
-                    child: Padding(padding: EdgeInsets.symmetric(vertical: 80.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {
-                              scanQRCode();
-                            },
-                            child: Text('Escanear QR-Code do Objeto'),
-                          ),
-                          SizedBox(height: 20.0),
-                          //Text(getResult),
-                        ],
-                      ),
-                    )
-                ),
-                Container(
-                    child: Padding(padding: EdgeInsets.symmetric(vertical: 80.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () async{
-                              bool loans = await listLoans();
-                              if (loans) {
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => DataTableDemo(),
+                  child: Row /*or Row*/(
+                    //crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Container(
+                          //child: Padding(padding: EdgeInsets.symmetric(vertical: 80.0),
+                          child: Padding(padding: EdgeInsets.symmetric(vertical: 80.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  child: SizedBox(
+                                    height: 120,
+                                    width: 160,
+                                    child: ElevatedButton.icon(
+                                      icon: Icon(Icons.qr_code_2),
+                                      label: Text("Escanear \n Objeto"),
+                                      style: ElevatedButton.styleFrom(
+                                          primary: Colors.blue, //background color of button
+                                          side: BorderSide(width:1, color:Colors.white), //border width and color
+                                          elevation: 7, //elevation of button
+                                          shape: RoundedRectangleBorder( //to set border radius to button
+                                              borderRadius: BorderRadius.circular(30)
+                                          ),
+                                          padding: EdgeInsets.all(35) //content padding inside button
+                                      ),
+                                      onPressed: () {
+                                        scanQRCode();
+                                      },
+                                    ),
                                   ),
-                                );
-                              }
-                            },
-                            child: Text('Lista de Empréstimos'),
-                          ),
-                          SizedBox(height: 20.0),
-                          //Text(getResult),
-                        ],
+                                ), //Text(getResult),
+                              ],
+                            ),
+                          )
                       ),
-                    )
+                      Container(
+                          child: Padding(padding: EdgeInsets.symmetric(vertical: 80.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  child: SizedBox(
+                                    height: 120,
+                                    width: 160,
+                                    child: ElevatedButton.icon(
+                                      icon: Icon(Icons.handshake),
+                                      label: Text("Empréstimos"),
+                                      style: ElevatedButton.styleFrom(
+                                          primary: Colors.blue, //background color of button
+                                          side: BorderSide(width:1, color:Colors.white), //border width and color
+                                          elevation: 7, //elevation of button
+                                          shape: RoundedRectangleBorder( //to set border radius to button
+                                              borderRadius: BorderRadius.circular(30)
+                                          ),
+                                          padding: EdgeInsets.all(20) //content padding inside button
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => DataTableDemo(),
+                                            ));
+                                      },
+                                    ),
+                                  ),
+                                ), //Text(getResult),
+                              ],
+                            ),
+                          )
+                      ),
+                    ],
+                  ),
                 ),
-
               ],
             ),
           ),
@@ -192,7 +223,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     } else if (responseCode == '400') {
       toast("Este objeto está em uso no momento.");
     } else if (responseCode == '404') {
-      toast("Este objeto não está registrado ou o QR-Code é inválido.");
+      toast("Este objeto não está registrado ou o QR-Code/Cód. de barras é inválido.");
     }
 
     if (resposta.statusCode == 200) {
@@ -200,6 +231,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       print(jsonDecode(resposta.body)['message']);
       print('');
       print('STATUS: ' + jsonDecode(resposta.body)['status'].toString());
+      print('');
+      print('STATUS OBJ: ' + jsonDecode(resposta.body)['statusObj'].toString());
       return true;
     } else {
       print(jsonDecode(resposta.body));
