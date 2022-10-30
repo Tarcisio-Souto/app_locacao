@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:app_locacao/listLoans.dart';
+import 'package:app_locacao/listLoans.old';
 import 'package:app_locacao/variables.dart';
 import 'package:app_locacao/welcome.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +10,8 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:app_locacao/login.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
+
+import 'listLoans.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -134,7 +136,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => SimpleDataTable(),
+                                    builder: (context) => DataTableDemo(),
                                   ),
                                 );
                               }

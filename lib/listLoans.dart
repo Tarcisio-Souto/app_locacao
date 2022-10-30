@@ -1,97 +1,213 @@
-import 'dart:convert';
-
-import 'package:app_locacao/variables.dart';
+import 'package:app_locacao/home.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'Loans.dart';
+import 'Services.dart';
 
-void main() => runApp(SimpleDataTable());
+class DataTableDemo extends StatefulWidget {
+  DataTableDemo() : super();
 
-class SimpleDataTable extends StatelessWidget{
+  final String title = "Flutter Laravel CRUD";
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      // MaterialApp with debugShowCheckedModeBanner false and home
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.light(),
-      home: Scaffold(
-        // Scaffold with appbar ans body.
-        appBar: AppBar(
-          title: Text('Simple Data Table'),
-        ),
-        body:
-        SingleChildScrollView(
+  DataTableDemoState createState() => DataTableDemoState();
+}
 
-          /*child: Container(
-              child: Padding(padding: EdgeInsets.symmetric(vertical: 80.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () async{
-                        bool loans = await listLoansUser();
-                        if (loans) {
-                          //listLoansUser();
-                        }
-                      },
-                      child: Text('Lista de Empréstimos'),
+class DataTableDemoState extends State<DataTableDemo> {
+  late List<Loans> _loans;
+  late GlobalKey<ScaffoldState> _scaffoldKey;
+  late TextEditingController _firstNameController;
+  late TextEditingController _lastNameController;
+  late Loans _selectedLoans;
+  late bool _isUpdating;
+  late String _titleProgress;
+
+  @override
+  void initState() {
+    super.initState();
+    _loans = [];
+    _isUpdating = false;
+    _titleProgress = widget.title;
+    _scaffoldKey = GlobalKey();
+    _getLoans();
+  }
+
+  _showProgress(String message) {
+    setState(() {
+      _titleProgress = message;
+    });
+  }
+
+
+  _getLoans() {
+    _showProgress('Loading Loans...');
+    Services.getLoans().then((loans) {
+      setState(() {
+        _loans = loans;
+      });
+      _showProgress(widget.title);
+      print("Length: ${loans.length}");
+    });
+  }
+
+  SingleChildScrollView _dataBody() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: DataTable(
+          dataTextStyle: TextStyle(color: Colors.black),
+          headingRowColor: MaterialStateColor.resolveWith((states) => Colors.indigo),
+          headingTextStyle: TextStyle(fontWeight:FontWeight.bold, color: Colors.white) ,
+          dataRowColor: MaterialStateColor.resolveWith((Set<MaterialState> states) => states.contains(MaterialState.selected)
+              ? Colors.white
+              : Colors.white
+          ),
+          columns: [
+            DataColumn(
+                label: Text("Nº Patrimônio"),
+                numeric: false,),
+            DataColumn(
+                label: Text(
+                  "Objeto",
+                ),
+                numeric: false),
+            DataColumn(
+                label: Text("Status"),
+                numeric: false),
+            DataColumn(
+                label: Text("Data do Empréstimo"),
+                numeric: false),
+            DataColumn(
+                label: Text("Data da Devolução"),
+                numeric: false),
+          ],
+          rows: _loans.map(
+                (loans) =>
+                DataRow(
+                  cells: [
+                    DataCell(
+                      Text(loans.pat_number,
+                      ),
                     ),
-                    SizedBox(height: 20.0),
-                    //Text(getResult),
+                    DataCell(
+                      Text(
+                        loans.asset_name,
+                      ),
+                    ),
+                    DataCell(
+                      Text(
+                        loans.lo_status,
+                      ),
+                    ),
+                    DataCell(
+                      Text(
+                        loans.dt_loan,
+                      ),
+                    ),
+                    DataCell(
+                      Text(
+                        loans.dt_devolution,
+                      ),
+                    ),
                   ],
                 ),
-              )
-
-          ),*/
-
-          scrollDirection: Axis.horizontal,
-          child: DataTable(
-            // Datatable widget that have the property columns and rows.
-              columns: [
-                // Set the name of the column
-                DataColumn(label: Text('Objeto'),),
-                DataColumn(label: Text('Patrimônio'),),
-                DataColumn(label: Text('Status'),),
-                DataColumn(label: Text('Data Locação'),),
-                DataColumn(label: Text('Data Devolução'),),
-              ],
-              rows:[
-
-                // Set the values to the columns
-                /*DataRow(cells: [
-                  DataCell(Text("1")),
-                  DataCell(Text("Alex")),
-                  DataCell(Text("Anderson")),
-                  DataCell(Text("18")),
-                  DataCell(Text("")),
-                ]),
-                DataRow(cells: [
-                  DataCell(Text("2")),
-                  DataCell(Text("John")),
-                  DataCell(Text("Anderson")),
-                  DataCell(Text("24")),
-                  DataCell(Text("")),
-                ]),*/
-              ]
-          ),
+          ).toList(),
         ),
       ),
     );
   }
-}
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      key: _scaffoldKey,
+      appBar: AppBar(
+        title: Container(
+          width: 200,
+          child: Image.asset(
+            'assets/images/logo.png',
+            width: 200,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.white38,
+        elevation: 15,
+        toolbarHeight: 120,
+      ),
+      body: Align(
+        child: Column(
+          //mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Container(
+                  child: Row /*or Row*/(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(),
+                      Container(
+                        height: 50,
+                        width: 200,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          //borderRadius: BorderRadius.circular(25),
+                            color: Colors.orangeAccent),
+                        child: Text("Lista de Empréstimos",
+                            style: TextStyle(
+                                fontSize: 17,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold)),
+                      ),
+                      Container(
+                          height: 50,
+                          decoration: BoxDecoration(
+                            //borderRadius: BorderRadius.circular(25),
+                              color: Colors.blue),
+                          child: IconButton(
+                            alignment: Alignment.centerRight,
+                            icon: Icon(
+                              Icons.home,
+                              color: Colors.white,
+                            ),
+                            onPressed: () async {
+                              bool exited = await goHome();
+                              if (exited) {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Home(),
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            Expanded(
 
-void listLoansUser() async {
-  var listLoansUser;
-  var url = Uri.parse('http://192.168.1.4:8001/api/list-loans-user');
-  var resposta = await http.post(url,
-      body: {
-        'id': idUserLogged
-      }
-  );
-  if(resposta.statusCode == 200) {
-    listLoansUser = jsonDecode(resposta.body)['loans'];
-    print(jsonDecode(resposta.body));
-    return listLoansUser;
+              child: _dataBody(),
+            )
+            /*Padding(
+                padding: EdgeInsets.all(16.0),,
+                child: Expanded(
+                  child: _dataBody(),
+                )
+            )*/
+
+          ],
+        ),
+      ),
+    );
   }
+
+  Future<bool> goHome() async {
+    return true;
+  }
+
+
 }
+
