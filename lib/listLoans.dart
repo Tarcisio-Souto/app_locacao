@@ -64,8 +64,8 @@ class DataTableDemoState extends State<DataTableDemo> {
           ),
           columns: [
             DataColumn(
-                label: Text("Nº Patrimônio"),
-                numeric: false,),
+              label: Text("Nº Patrimônio"),
+              numeric: false,),
             DataColumn(
                 label: Text(
                   "Objeto",
@@ -159,28 +159,28 @@ class DataTableDemoState extends State<DataTableDemo> {
                                 fontWeight: FontWeight.bold)),
                       ),
                       Container(
-                          height: 50,
-                          decoration: BoxDecoration(
-                            //borderRadius: BorderRadius.circular(25),
-                              color: Colors.blue),
-                          child: IconButton(
-                            alignment: Alignment.centerRight,
-                            icon: Icon(
-                              Icons.home,
-                              color: Colors.white,
-                            ),
-                            onPressed: () async {
-                              bool exited = await goHome();
-                              if (exited) {
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Home(),
-                                  ),
-                                );
-                              }
-                            },
+                        height: 50,
+                        decoration: BoxDecoration(
+                          //borderRadius: BorderRadius.circular(25),
+                            color: Colors.blue),
+                        child: IconButton(
+                          alignment: Alignment.centerRight,
+                          icon: Icon(
+                            Icons.home,
+                            color: Colors.white,
                           ),
+                          onPressed: () async {
+                            bool exited = await goHome();
+                            if (exited) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Home(),
+                                ),
+                              );
+                            }
+                          },
+                        ),
                       ),
                     ],
                   ),
@@ -210,4 +210,3 @@ class DataTableDemoState extends State<DataTableDemo> {
 
 
 }
-

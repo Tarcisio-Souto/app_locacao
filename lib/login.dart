@@ -39,7 +39,19 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
     return Scaffold(
       body: Form(
         key: _formKey,
-        child: Center(
+        child: Container(
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+                Colors.blue,
+                Colors.white,
+                Colors.red,
+              ],
+            ),
+          ),
           child: SingleChildScrollView(
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: Column(
@@ -59,6 +71,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
+                      color: Colors.black
                     ),
                   ),
                 ),
