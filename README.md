@@ -1,16 +1,68 @@
-# app_locacao
+<h3 align="center">Sistema de Apoio ao Processo de Empréstimo de Recursos Institucionais</h3>
+<br>
 
-Locação de Recursos Institucionais - Mobile
+<p>
+Aplicação desenvolvida como produto do TCC que desenvolvi durante alguns meses de pesquisa. O objetivo principal da pesquisa foi desenvolver um modelo de um processo o qual culminou em uma aplicação híbrida (web e mobile), cujo objetivo é ser um sistema de locação de recursos institucionais, sejam aparelhos de informática, audiovisuais etc., assim como ambientes físicos como salas de aula, reunião, auditórios entre outros.
 
-## Getting Started
+Esta é a aplicação mobile, mas também desenvolvi a versão web com o Laravel (https://github.com/Tarcisio-Souto/app_unisales).
 
-This project is a starting point for a Flutter application.
+<p>
 
-A few resources to get you started if this is your first Flutter project:
+<br><br>
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+><h3 align="center">Principais Ferramentas Utilizadas</h3>
+<br>
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<ul>
+    <li>Flutter</li>
+    <li>Dart</li>
+</ul>
+<br>
+
+><h3 align="center">Requisitos</h3>
+<br>
+
+<p>
+<b>Para a execução da aplicação é necessário ter os recursos abaixo após a clonagem:</b>
+<br><br>
+<ul>
+    <li>
+        <b>Editor de códigos (Visual Studio Code ou outro como o Android Studio)</b>
+        <ul><br>
+            <li>Visual Studio Code - Disponível em: https://code.visualstudio.com/download</li>
+        </ul>  
+    </li>
+    <br>
+    <li>
+        <b>Flutter</b>
+        <ul><br>
+            <li>Disponível em: https://docs.flutter.dev/get-started/install</li>
+        </ul>  
+    </li>
+    <br>
+</ul>
+
+<p><br>
+
+><h3 align="center">Principais Telas do Sistema</h3>
+<br>
+
+><b>Login</b><br>
+
+![Screenshot](https://github.com/Tarcisio-Souto/app_locacao/blob/main/capturas/01_-_Login.PNG)
+
+<br><br>
+
+><b>Início</b><br>
+
+![Screenshot](https://github.com/Tarcisio-Souto/app_locacao/blob/main/capturas/02_-_Início.PNG)
+
+<br><br>
+
+><b>Menu</b><br>
+
+![Screenshot](https://github.com/Tarcisio-Souto/app_locacao/blob/main/capturas/03_-_Locações.PNG)
+
+<br><br><br>
+
+><p>TSS - Vitória/ES - 2022</p>
